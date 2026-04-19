@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fadel Muhammad | Portfolio Dev</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <style>
+        :root {
+            --bg: #050000;
+            --card: rgba(30, 0, 0, 0.85);
+            --text: #ffffff;
+            --lava: #ff0000;
+            --fire-outer: #ff4500;
+            --star-gold: #ffcc00;
+            --nav-bg: rgba(15, 0, 0, 0.7); 
+            --online-green: #00ff00;
+            
+            --neon-html: #e34c26;
+            --neon-css: #264de4;
+            --neon-js: #f7df1e;
+            --neon-python: #3776ab;
+            --neon-node: #339933;
+            --neon-react: #61dbfb;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- ANIMASI --- */
+        @keyframes rgb-inferno {
+            0% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
+            50% { border-color: #ff8c00; box-shadow: 0 0 20px #ff8c00; }
+            100% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
+        }
+
+        @keyframes rgb-text-inferno {
+            0% { color: #ff0000; text-shadow: 0 0 15px #ff0000; }
+            50% { color: #ff8c00; text-shadow: 0 0 20px #ff8c00; }
+            100% { color: #ff0000; text-shadow: 0 0 15px #ff0000; }
+        }
+
+        @keyframes star-pulse {
+            0%, 100% { color: var(--star-gold); filter: drop-shadow(0 0 2px var(--star-gold)); opacity: 0.8; }
+            50% { color: #ffffff; filter: drop-shadow(0 0 12px #ffffff) drop-shadow(0 0 20px var(--star-gold)); opacity: 1; }
+        }
+
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); }
+        }
+
+        /* Animasi Floating Teks */
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 15px 6%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000;
+            border-bottom: 2px solid var(--lava);
+        }
+
+        .nav-logo { font-size: 1.5rem; font-weight: 800; color: var(--text); text-decoration: none; transition: 0.3s; }
+        .nav-logo:hover { text-shadow: 0 0 15px var(--lava); scale: 1.05; }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #fff; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; transition: 0.3s; }
+        .nav-links a:hover { color: var(--lava); text-shadow: 0 0 10px var(--lava); }
+        
+        .menu-toggle { display: none; font-size: 1.6rem; cursor: pointer; color: var(--lava); }
+        .close-menu { display: none; font-size: 2rem; color: #fff; position: absolute; top: 20px; right: 25px; cursor: pointer; }
+
+        /* --- HERO --- */
+        .hero {
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; padding: 120px 20px;
+        }
+
+        .profile-wrapper { position: relative; margin-bottom: 30px; }
+        .profile-box {
+            width: 220px; height: 220px;
+            padding: 8px; border-radius: 20px;
+            border: 4px solid; 
+            animation: rgb-inferno 3s infinite ease-in-out;
+            background: #000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+        .profile-box:hover { transform: scale(1.05) rotate(2deg); box-shadow: 0 0 40px var(--lava); }
+        .profile-box:active { transform: scale(0.95); }
+
+        .profile-img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+        /* Floating Text Style with Animation */
+        .floating-text {
+            position: absolute; background: var(--card); color: #fff;
+            padding: 6px 12px; border-radius: 8px; font-weight: 700;
+            font-size: 0.7rem; border: 1px solid var(--fire-outer);
+            z-index: 5; white-space: nowrap; 
+            animation: floating 3s infinite ease-in-out;
+        }
+        .t-left { left: -40px; top: 10%; }
+        .t-right { right: -40px; bottom: 10%; animation-delay: 1.5s; } /* Jeda biar geraknya gak barengan */
+
+        .status-container {
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; margin-top: 15px; font-weight: 700; font-size: 0.9rem;
+        }
+        .online-dot {
+            width: 10px; height: 10px; background: var(--online-green);
+            border-radius: 50%; animation: pulse-green 2s infinite;
+        }
+
+        .hero-shortcuts {
+            display: flex; gap: 20px; margin-top: 15px;
+        }
+        .hero-shortcuts a {
+            color: #fff; text-decoration: none; font-size: 0.8rem;
+            font-weight: 700; opacity: 0.7; transition: 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        .hero-shortcuts a:hover { opacity: 1; border-color: var(--lava); text-shadow: 0 0 10px var(--lava); transform: translateY(-3px); }
+
+        .burn-title {
+            font-size: clamp(2.2rem, 8vw, 4rem); font-weight: 900;
+            animation: rgb-text-inferno 3s infinite ease-in-out;
+            margin-bottom: 10px;
+        }
+
+        /* --- SECTION BOX --- */
+        .section-box { padding: 80px 6%; overflow: hidden; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+
+        .card {
+            background: var(--card); padding: 30px; border-radius: 15px;
+            border: 2px solid; animation: rgb-inferno 4s infinite ease-in-out;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .card:hover { transform: translateY(-10px); background: rgba(50, 0, 0, 0.9); box-shadow: 0 0 30px var(--lava) !important; }
+        .card:active { transform: scale(0.95); }
+
+        .tech-card { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .tech-card i { font-size: 3.5rem; transition: 0.5s; }
+        .tech-card:hover i { transform: rotateY(360deg); }
+        
+        .card-html { --tech-color: var(--neon-html); } .card-html i, .card-html h3 { color: var(--neon-html); }
+        .card-css { --tech-color: var(--neon-css); } .card-css i, .card-css h3 { color: var(--neon-css); }
+        .card-js { --tech-color: var(--neon-js); } .card-js i, .card-js h3 { color: var(--neon-js); }
+        .card-python { --tech-color: var(--neon-python); } .card-python i, .card-python h3 { color: var(--neon-python); }
+        .card-node { --tech-color: var(--neon-node); } .card-node i, .card-node h3 { color: var(--neon-node); }
+        .card-react { --tech-color: var(--neon-react); } .card-react i, .card-react h3 { color: var(--neon-react); }
+
+        .stars { margin-bottom: 15px; font-size: 1rem; display: flex; gap: 4px; justify-content: center; }
+        .stars i { animation: star-pulse 2s infinite ease-in-out; }
+
+        .fire-btn {
+            padding: 12px 25px; background: linear-gradient(90deg, var(--lava), var(--fire-outer));
+            color: white; font-weight: 800; border-radius: 5px; text-decoration: none; display: inline-block; margin-top: 15px;
+            transition: 0.3s;
+        }
+        .fire-btn:hover { box-shadow: 0 0 20px var(--lava); transform: scale(1.1); }
+
+        .hubungi-btn {
+            background: #fff; color: #000; padding: 18px 40px; border-radius: 50px;
+            font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+            transition: 0.4s; margin-top: 30px;
+        }
+        .hubungi-btn:hover { background: var(--lava); color: #fff; box-shadow: 0 0 40px var(--lava); transform: scale(1.05); }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .close-menu { display: block; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%;
+                flex-direction: column; background: rgba(5, 0, 0, 0.98);
+                width: 100%; height: 100vh; padding: 80px 40px;
+                transition: 0.5s; border-left: 4px solid var(--lava);
+                z-index: 1001; justify-content: center;
+            }
+            .nav-links.active { right: 0; }
+            .mobile-copy { display: block; position: absolute; bottom: 30px; text-align: center; width: 100%; left: 0; font-size: 0.8rem; opacity: 0.6; color: var(--text); }
+        }
+
+        footer { text-align: center; padding: 40px; opacity: 0.6; border-top: 1px solid rgba(255, 0, 0, 0.2); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="nav-logo">Fadel Muhammad</a>
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        <div class="nav-links" id="navLinks">
+            <div class="close-menu" onclick="toggleMenu()"><i class="fas fa-times"></i></div>
+            <a href="#home" onclick="toggleMenu()">Home</a>
+            <a href="#skills" onclick="toggleMenu()">Skill</a>
+            <a href="#work" onclick="toggleMenu()">Project</a>
+            <a href="#reviews" onclick="toggleMenu()">Review</a>
+            <a href="https://instagram.com/fadell__muhammad" target="_blank" style="font-size: 1.8rem;"><i class="fab fa-instagram"></i></a>
+            <div class="mobile-copy">&copy; 2026 FADEL MUHAMMAD<br>ALL RIGHTS RESERVED</div>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="profile-wrapper reveal-left">
+            <div class="floating-text t-left">FRONTEND DEV</div>
+            <div class="profile-box">
+                <img src="Gemini_Generated_Image_550eml550eml550e.png" class="profile-img">
+            </div>
+            <div class="floating-text t-right">UI / UX DESIGNER</div>
+        </div>
+
+        <div class="status-container reveal-bottom">
+            <div class="online-dot"></div>
+            <span>DEVELOPER AKTIF</span>
+        </div>
+        <div class="hero-shortcuts reveal-bottom">
+            <a href="#work">PROJECT SAYA</a>
+            <a href="#skills">SKILL SAYA</a>
+        </div>
+
+        <h1 class="burn-title reveal-right" style="margin-top: 20px;">FADEL MUHAMMAD</h1>
+        <p class="reveal-left" style="opacity: 0.9; max-width: 600px;">Saya adalah seorang pelajar dari MA Plus RMB. Saya memiliki minat besar di bidang informatika dan saya sangat senang sekali dengan olahraga.</p>
+    </section>
+
+    <section class="section-box" id="skills">
+        <h2 style="text-align:center; margin-bottom: 50px;" class="reveal-top">SKILL <span style="color:var(--lava)">SAYA</span></h2>
+        <div class="grid">
+            <div class="card tech-card card-html reveal-left"><i class="fab fa-html5"></i><h3>HTML</h3></div>
+            <div class="card tech-card card-css reveal-right"><i class="fab fa-css3-alt"></i><h3>CSS</h3></div>
+            <div class="card tech-card card-js reveal-left"><i class="fab fa-js"></i><h3>JavaScript</h3></div>
+            <div class="card tech-card card-python reveal-right"><i class="fab fa-python"></i><h3>Python</h3></div>
+            <div class="card tech-card card-node reveal-left"><i class="fab fa-node-js"></i><h3>Node.js</h3></div>
+            <div class="card tech-card card-react reveal-right"><i class="fab fa-react"></i><h3>React Native</h3></div>
+        </div>
+    </section>
+
+    <section class="section-box" id="work">
+        <h2 style="text-align:center; margin-bottom: 50px;" class="reveal-top">PROJECT <span style="color:var(--lava)">SAYA</span></h2>
+        <div class="grid">
+            <div class="card reveal-left">
+                <img src="Screenshot_19-4-2026_1494_fadelstyle-e-commerce.vercel.app.jpeg" style="width:100%; border-radius:10px;">
+                <h3 style="margin-top:20px;">Fadel Style</h3>
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <a href="https://fadelstyle-e-commerce.vercel.app/" target="_blank" class="fire-btn">LIHAT PROJECT</a>
+            </div>
+            <div class="card reveal-right">
+                <img src="Screenshot_19-4-2026_14105_fadelmotocare-cekpart.vercel.app.jpeg" style="width:100%; border-radius:10px;">
+                <h3 style="margin-top:20px;">Fadel Autocare</h3>
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <a href="https://fadelmotocare-cekpart.vercel.app/" target="_blank" class="fire-btn">LIHAT PROJECT</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-box" id="reviews">
+        <h2 style="text-align:center; margin-bottom: 50px;" class="reveal-top">CLIENT <span style="color:var(--lava)">REVIEWS</span></h2>
+        <div class="grid">
+            <div class="card reveal-left"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Premium Quality!"</p><b>Ahmad Zaki</b></div>
+            <div class="card reveal-right"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Terbaik di Bekasi!"</p><b>Siti Nur</b></div>
+            <div class="card reveal-left"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Web kencang & responsif."</p><b>Budi Santoso</b></div>
+            <div class="card reveal-right"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Desainnya sangat modern!"</p><b>Rina Amelia</b></div>
+            <div class="card reveal-left"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Solusi digital terbaik."</p><b>Fikri Haikal</b></div>
+            <div class="card reveal-right"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Sangat profesional!"</p><b>Dewi Lestari</b></div>
+            <div class="card reveal-left"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Hasil memuaskan sekali."</p><b>Andi Wijaya</b></div>
+            <div class="card reveal-right"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Pengerjaan sangat cepat."</p><b>Maya Putri</b></div>
+            <div class="card reveal-left"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Codingannya rapi banget."</p><b>Rizky Pratama</b></div>
+            <div class="card reveal-right"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p>"Gak nyesel order di sini."</p><b>Lulu Atika</b></div>
+        </div>
+    </section>
+
+    <section style="text-align: center; padding: 60px 20px;">
+        <h2 class="reveal-top">Ready to Start?</h2>
+        <a href="https://instagram.com/fadell__muhammad" target="_blank" class="hubungi-btn reveal-bottom">
+            <i class="fab fa-instagram"></i> HUBUNGI FADEL
+        </a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Fadel Muhammad | Developer</p>
+    </footer>
+
+    <script>
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+        const sr = ScrollReveal({ distance: '100px', duration: 1000, delay: 200, reset: true });
+        sr.reveal('.reveal-top', { origin: 'top' });
+        sr.reveal('.reveal-bottom', { origin: 'bottom' });
+        sr.reveal('.reveal-left', { origin: 'left', interval: 100 });
+        sr.reveal('.reveal-right', { origin: 'right', interval: 100 });
+    </script>
+</body>
+</html>
